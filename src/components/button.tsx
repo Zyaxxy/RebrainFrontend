@@ -11,12 +11,12 @@ export interface ButtonProps {
 
 const variantStyles: Record<ButtonProps["variant"], string> = {
   primary: "bg-purple-600 text-white",
-  secondary: "bg-purple-500 text-white",
+  secondary: "bg-purple-100 text-purple-600",
 };
 
+  
 
-
-const defaultStyles = "rounded-md px-4 py-2 flex items-center gap-2";
+const defaultStyles = "rounded-md px-4 py-2 font-medium text-sm";
 
 export const Button = (props: ButtonProps) => {
   const { variant, text , startIcon, endIcon } = props;
