@@ -16,7 +16,7 @@ const variantStyles: Record<ButtonProps["variant"], string> = {
 
   
 
-const defaultStyles = "rounded-md px-4 py-2 font-medium text-sm";
+const defaultStyles = "rounded-md px-4 py-2 m-2 text-sm flex jutify-center items-center gap-.5";
 
 export const Button = (props: ButtonProps) => {
   const { variant, text , startIcon, endIcon } = props;
