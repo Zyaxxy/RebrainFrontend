@@ -19,15 +19,15 @@ const variantStyles: Record<ButtonProps["variant"], string> = {
 const defaultStyles = "rounded-md px-4 py-2 m-2 text-sm flex jutify-center items-center gap-.5";
 
 export const Button = (props: ButtonProps) => {
-  const { variant, text , startIcon, endIcon } = props;
+  const { variant, text , startIcon, endIcon, onClick } = props;
 
   return (
-    <button
-      className={`${variantStyles[variant]} ${defaultStyles}`}>
+    <button onClick = {onClick}
+      className={`${variantStyles[variant]} ${defaultStyles}`} >
         {startIcon? <div className= "pr-2">{ startIcon }</div> : null}
         {text} 
-        {endIcon? <div className= "pl-2">{ endIcon }</div> : null}
-    </button>
+        {endIcon? <div className= "pl-2">{ endIcon }</div> : null} 
+    </button> 
   );
 };
 
