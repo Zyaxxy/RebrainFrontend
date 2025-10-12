@@ -1,5 +1,6 @@
 import { CrossIcon } from "../icons/crossicon";
 import { Button } from "./button";
+import { InputBox } from "./InputBox";
 export function CreateContentModal({open, onClose}) {
     return (
         <div>
@@ -24,14 +25,4 @@ export function CreateContentModal({open, onClose}) {
             }
         </div>
     );
-}
-interface InputBoxProps {
-    onChange:()=>void;
-    placeholder:string;
-}
-function InputBox({onChange ,placeholder}:InputBoxProps) {
-    return <div>
-        <input type={"text"} placeholder={placeholder} className="px-4 py-2 m-2" onChange={onChange}></input>
-        
-    </div>
 }
