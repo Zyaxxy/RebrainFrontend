@@ -1,15 +1,18 @@
-import { BrowserRouter , Routes, Route } from "react-router-dom"
-import SignIn from "./pages/signIn"
-import { Dashboard } from "./pages/dashboard";
+import DashboardLayout from "@/components/layout/DashboardLayout"
+import { DraggableGrid } from "@/components/dashboard/DraggableGrid"
+
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Dashboard/>} />
-        <Route path="/signin" element={<SignIn/>} />
-      </Routes>
-    </BrowserRouter>
-  );
-};
+    <DashboardLayout>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold tracking-tight mb-2">Dashboard</h1>
+        <p className="text-muted-foreground">
+          Welcome back to your Second Brain. Here's an overview of your workspace.
+        </p>
+      </div>
+      <DraggableGrid />
+    </DashboardLayout>
+  )
+}
 
 export default App

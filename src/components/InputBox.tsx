@@ -1,12 +1,17 @@
-interface InputBoxProps {
-    onChange?:()=>void;
-    placeholder:string;
-    reference?:any;
+import type { InputHTMLAttributes } from "react";
+
+interface InputBoxProps extends InputHTMLAttributes<HTMLInputElement> {
+    reference?: any;
 }
 
-export function InputBox({onChange ,placeholder}:InputBoxProps) {
-    return <div>
-        <input type={"text"} placeholder={placeholder} className="px-4 py-2 m-2" onChange={onChange}></input>
-        
-    </div>
+export function InputBox({ reference, className, ...props }: InputBoxProps) {
+    return (
+        <div>
+            <input
+                ref={reference}
+                className={`px-4 py-2 m-2 ${className || ""}`}
+                {...props}
+            />
+        </div>
+    )
 }
