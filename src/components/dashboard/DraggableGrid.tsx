@@ -16,11 +16,13 @@ import {
 } from "@dnd-kit/sortable"
 import { SortableWidget } from "./SortableWidget"
 import { WidgetCard } from "./WidgetCard"
+import { ExternalLink } from "lucide-react"
 
 interface Widget {
-    id: string
+    _id?: string
+    id?: string
     title: string
-    content: string
+    content?: string
     link?: string
     type?: string
 }
@@ -53,14 +55,38 @@ export function DraggableGrid({ items }: DraggableGridProps) {
 
         if (active.id !== over.id) {
             setWidgets((items) => {
-                const oldIndex = items.findIndex((item) => item.id === active.id)
-                const newIndex = items.findIndex((item) => item.id === over.id)
+                const oldIndex = items.findIndex((item) => (item._id || item.id) === active.id)
+                const newIndex = items.findIndex((item) => (item._id || item.id) === over.id)
 
                 return arrayMove(items, oldIndex, newIndex)
             })
         }
 
         setActiveId(null)
+    }
+
+    const renderContent = (widget: Widget) => {
+        if (widget.type === "youtube" && widget.link) {
+            return (
+                <iframe
+                    className="w-full aspect-video rounded-md"
+                    src={widget.link.replace("watch", "embed").replace("?v=", "/")}
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                />
+            )
+        }
+        if (widget.type === "twitter" && widget.link) {
+            return (
+                <blockquote className="twitter-tweet">
+                    <a href={widget.link}></a>
+                </blockquote>
+            )
+        }
+        return <p>{widget.content}</p>
     }
 
     return (
@@ -70,20 +96,35 @@ export function DraggableGrid({ items }: DraggableGridProps) {
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
         >
-            <SortableContext items={widgets} strategy={rectSortingStrategy}>
+            <SortableContext items={widgets.map(w => w._id || w.id || "")} strategy={rectSortingStrategy}>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {widgets.map((widget) => (
-                        <SortableWidget key={widget.id} id={widget.id} title={widget.title} content={widget.content} />
+                        <SortableWidget
+                            key={widget._id || widget.id}
+                            id={widget._id || widget.id || ""}
+                            title={widget.title}
+                            content={
+                                <div className="flex flex-col gap-2">
+                                    {widget.link && (
+                                        <a href={widget.link} target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 self-end">
+                                            <ExternalLink className="h-3 w-3" /> Open
+                                        </a>
+                                    )}
+                                    {renderContent(widget)}
+                                </div>
+                            }
+                        />
                     ))}
                 </div>
             </SortableContext>
             <DragOverlay>
                 {activeId ? (
                     <WidgetCard
-                        title={widgets.find(w => w.id === activeId)?.title || ""}
+                        title={widgets.find(w => (w._id || w.id) === activeId)?.title || ""}
                         className="opacity-80 cursor-grabbing"
                     >
-                        {widgets.find(w => w.id === activeId)?.content}
+                        {/* Simplified preview */}
+                        Preview
                     </WidgetCard>
                 ) : null}
             </DragOverlay>

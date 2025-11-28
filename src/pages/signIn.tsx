@@ -1,31 +1,29 @@
 import { useState } from "react";
-import { InputBox } from "../components/InputBox";
-import { Button } from "../components/button";
-import axios from "axios";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/auth";
+import { auth } from "@/services/api";
+import { Loader2 } from "lucide-react";
 
 const SignIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const login = useAuthStore((s) => s.login);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
 
     try {
-      const res = await axios.post(
-        "http://localhost:3000/api/v1/signin",
-        { username, password },
-        { headers: { "Content-Type": "application/json" } }
-      );
+      const data = await auth.signIn(username, password) as any;
 
-      if (res.status === 200 && (res.data as any).token) {
-        localStorage.setItem("token", (res.data as any).token);
-        axios.defaults.headers.common["Authorization"] = `Bearer ${(res.data as any).token}`;
+      if (data.token) {
+        localStorage.setItem("token", data.token);
         login(); // Update auth store
         navigate("/"); // Redirect to dashboard
       } else {
@@ -33,6 +31,8 @@ const SignIn = () => {
       }
     } catch (err: any) {
       setError(err.response?.data?.message || "Sign in failed.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -41,20 +41,23 @@ const SignIn = () => {
       <div className="w-80 bg-card rounded-lg shadow-md p-8 flex flex-col items-center justify-center border border-border">
         <h2 className="text-2xl font-bold mb-6 text-card-foreground">Sign In</h2>
         <form className="flex flex-col gap-4 w-full items-center" onSubmit={handleSignIn}>
-          <InputBox
+          <Input
             placeholder="Username"
             value={username}
             onChange={e => setUsername(e.target.value)}
             className="w-full"
           />
-          <InputBox
+          <Input
             placeholder="Password"
             type="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
             className="w-full"
           />
-          <Button variant="primary" text="Sign In" size="md" loading={false} />
+          <Button variant="default" size="default" disabled={loading} className="w-full">
+            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Sign In
+          </Button>
         </form>
         {error && <div className="text-destructive mt-2 text-sm">{error}</div>}
         <div className="mt-4 text-sm text-muted-foreground">

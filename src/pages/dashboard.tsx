@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button } from '../components/button'
+import { Button } from '@/components/ui/button'
 import { PlusIcon } from '../icons/plus'
 import { ShareIcon } from '../icons/shareicon'
 import { CreateContentModal } from '../components/createContentModal'
@@ -30,8 +30,14 @@ export function Dashboard() {
           </p>
         </div>
         <div className='flex gap-2'>
-          <Button onClick={() => { setModalOpen(true) }} size="md" variant="primary" text="Add Content" startIcon={<PlusIcon />} />
-          <Button size="md" variant="secondary" text="Share" startIcon={<ShareIcon />} />
+          <Button onClick={() => { setModalOpen(true) }} variant="default">
+            <PlusIcon className="mr-2 h-4 w-4" />
+            Add Content
+          </Button>
+          <Button variant="secondary">
+            <ShareIcon className="mr-2 h-4 w-4" />
+            Share
+          </Button>
         </div>
       </div>
       <DraggableGrid items={contents} />

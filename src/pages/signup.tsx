@@ -1,8 +1,9 @@
 import React, { useRef, useState } from "react";
-import axios from "axios";
-import { InputBox } from "../components/InputBox";
-import { Button } from "../components/button";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
+import { auth } from "@/services/api";
+import { Loader2 } from "lucide-react";
 
 const SignUp = () => {
   const usernameref = useRef<HTMLInputElement>(null);
@@ -10,22 +11,28 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     const username = usernameref.current?.value;
     const password = passwordref.current?.value;
 
+    if (!username || !password) {
+      setError("Username and password are required");
+      return;
+    }
+
+    setLoading(true);
     try {
       setError(null);
-      const res = await axios.post("http://localhost:3000/api/v1/signup", { username, password });
-      if (res.status === 201 || (res.data as any).success) {
-        navigate("/signin");
-      } else {
-        setError("Failed to create account. Please try again.");
-      }
+      await auth.signUp(username, password);
+      // Assuming successful signup doesn't automatically login, redirect to signin
+      navigate("/signin");
     } catch (err: any) {
       setError(err.response?.data?.message || "Failed to create account.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -34,9 +41,12 @@ const SignUp = () => {
       <div className="w-80 bg-card rounded-lg shadow-md p-8 flex flex-col items-center justify-center border border-border">
         <h2 className="text-2xl font-bold mb-6 text-card-foreground">Sign Up</h2>
         <form onSubmit={handleSignUp} className="flex flex-col gap-4 w-full items-center">
-          <InputBox placeholder="Username" reference={usernameref} className="w-full" />
-          <InputBox placeholder="Password" reference={passwordref} className="w-full" type="password" />
-          <Button variant="primary" text="Sign Up" size="md" />
+          <Input placeholder="Username" ref={usernameref} className="w-full" />
+          <Input placeholder="Password" ref={passwordref} className="w-full" type="password" />
+          <Button variant="default" size="default" disabled={loading} className="w-full">
+            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Sign Up
+          </Button>
         </form>
         {error && <div className="text-destructive mt-2 text-sm">{error}</div>}
         <div className="mt-4 text-sm text-muted-foreground">
