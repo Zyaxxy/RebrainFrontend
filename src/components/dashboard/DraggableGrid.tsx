@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {
     DndContext,
     closestCenter,
@@ -21,20 +21,21 @@ interface Widget {
     id: string
     title: string
     content: string
+    link?: string
+    type?: string
 }
 
-const initialWidgets: Widget[] = [
-    { id: "1", title: "Quick Notes", content: "Remember to check the new design specs." },
-    { id: "2", title: "Tasks", content: "3 pending tasks for today." },
-    { id: "3", title: "Calendar", content: "Meeting at 2 PM with the team." },
-    { id: "4", title: "Reading List", content: "The Pragmatic Programmer" },
-    { id: "5", title: "Ideas", content: "App for tracking water intake." },
-    { id: "6", title: "Stats", content: "Productivity up by 15%." },
-]
+interface DraggableGridProps {
+    items: Widget[]
+}
 
-export function DraggableGrid() {
-    const [widgets, setWidgets] = useState(initialWidgets)
+export function DraggableGrid({ items }: DraggableGridProps) {
+    const [widgets, setWidgets] = useState<Widget[]>(items)
     const [activeId, setActiveId] = useState<string | null>(null)
+
+    useEffect(() => {
+        setWidgets(items);
+    }, [items]);
 
     const sensors = useSensors(
         useSensor(PointerSensor),
