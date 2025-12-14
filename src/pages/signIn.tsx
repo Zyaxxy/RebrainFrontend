@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/auth";
 import { auth } from "@/services/api";
 import { Loader2 } from "lucide-react";
+import { Beams } from "@/components/ui/Beams";
 
 const SignIn = () => {
   const [username, setUsername] = useState("");
@@ -37,8 +38,9 @@ const SignIn = () => {
   };
 
   return (
-    <div className="h-screen w-screen bg-background flex flex-col items-center justify-center">
-      <div className="w-80 bg-card rounded-lg shadow-md p-8 flex flex-col items-center justify-center border border-border">
+    <div className="h-screen w-screen bg-neutral-950 relative flex flex-col items-center justify-center overflow-hidden">
+      <Beams className="absolute top-0 left-0 w-full h-full z-0" />
+      <div className="w-80 bg-card rounded-lg shadow-md p-8 flex flex-col items-center justify-center border border-border z-10 relative">
         <h2 className="text-2xl font-bold mb-6 text-card-foreground">Sign In</h2>
         <form className="flex flex-col gap-4 w-full items-center" onSubmit={handleSignIn}>
           <Input
