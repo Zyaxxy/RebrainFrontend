@@ -76,7 +76,7 @@ function extendMaterial<T extends THREE.Material = THREE.Material>(
 }
 
 const CanvasWrapper: FC<{ children: ReactNode }> = ({ children }) => (
-    <Canvas dpr={[1, 2]} frameloop="always" className="w-full h-full relative">
+    <Canvas dpr={[1, 2]} frameloop="always" className="w-full h-full absolute inset-0 z-0">
         {children}
     </Canvas>
 );
