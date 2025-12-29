@@ -5,6 +5,7 @@ import { ShareIcon } from "../icons/shareicon";
 import { CrossIcon } from "../icons/crossicon";
 import { Xicon } from "../icons/Xicon";
 import { YoutubeIcon } from "../icons/YoutubeIcon";
+import { motion } from "framer-motion";
 
 interface CardProps {
   title: string;
@@ -25,11 +26,22 @@ export function Card({ title, link, type, StartIcon }: CardProps) {
           {title}
         </div>
         <div className="flex items-center gap-2">
-          <ShareIcon className="size-4 text-muted-foreground hover:text-foreground cursor-pointer" />
-          <CrossIcon className="size-4 text-muted-foreground hover:text-foreground cursor-pointer" />
-          <a href={link} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
+          <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }}>
+            <ShareIcon className="size-4 text-muted-foreground hover:text-foreground cursor-pointer" />
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.2, rotate: 90 }} whileTap={{ scale: 0.9 }}>
+            <CrossIcon className="size-4 text-muted-foreground hover:text-foreground cursor-pointer" />
+          </motion.div>
+          <motion.a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground"
+            whileHover={{ scale: 1.2, y: -2 }}
+            whileTap={{ scale: 0.9 }}
+          >
             <ExternalLink className="h-4 w-4" />
-          </a>
+          </motion.a>
         </div>
       </CardHeader>
       <CardContent className="pt-2">

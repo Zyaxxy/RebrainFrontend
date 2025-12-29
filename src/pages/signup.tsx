@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "@/services/api";
 import { Loader2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { staggerContainer, staggerItem, shakeVariants } from "@/lib/animation-variants";
 
 const SignUp = () => {
   const usernameref = useRef<HTMLInputElement>(null);
@@ -37,23 +39,60 @@ const SignUp = () => {
   };
 
   return (
-    <div className="h-screen w-screen bg-background flex flex-col items-center justify-center">
-      <div className="w-80 bg-card rounded-lg shadow-md p-8 flex flex-col items-center justify-center border border-border">
-        <h2 className="text-2xl font-bold mb-6 text-card-foreground">Sign Up</h2>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="h-screen w-screen bg-background flex flex-col items-center justify-center"
+    >
+      <motion.div
+        initial="initial"
+        animate="animate"
+        variants={staggerContainer}
+        className="w-80 bg-card rounded-lg shadow-md p-8 flex flex-col items-center justify-center border border-border"
+      >
+        <motion.h2
+          variants={staggerItem}
+          className="text-2xl font-bold mb-6 text-card-foreground"
+        >
+          Sign Up
+        </motion.h2>
         <form onSubmit={handleSignUp} className="flex flex-col gap-4 w-full items-center">
-          <Input placeholder="Username" ref={usernameref} className="w-full" />
-          <Input placeholder="Password" ref={passwordref} className="w-full" type="password" />
-          <Button variant="default" size="default" disabled={loading} className="w-full">
-            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Sign Up
-          </Button>
+          <motion.div variants={staggerItem} className="w-full">
+            <Input placeholder="Username" ref={usernameref} className="w-full" />
+          </motion.div>
+          <motion.div variants={staggerItem} className="w-full">
+            <Input placeholder="Password" ref={passwordref} className="w-full" type="password" />
+          </motion.div>
+          <motion.div variants={staggerItem} className="w-full">
+            <Button variant="default" size="default" disabled={loading} className="w-full">
+              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Sign Up
+            </Button>
+          </motion.div>
         </form>
-        {error && <div className="text-destructive mt-2 text-sm">{error}</div>}
-        <div className="mt-4 text-sm text-muted-foreground">
+        <AnimatePresence mode="wait">
+          {error && (
+            <motion.div
+              initial="initial"
+              animate="shake"
+              exit={{ opacity: 0 }}
+              variants={shakeVariants}
+              className="text-destructive mt-2 text-sm"
+            >
+              {error}
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <motion.div
+          variants={staggerItem}
+          className="mt-4 text-sm text-muted-foreground"
+        >
           Already have an account? <Link to="/signin" className="text-primary hover:underline">Sign In</Link>
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 

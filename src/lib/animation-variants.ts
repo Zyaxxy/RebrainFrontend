@@ -69,7 +69,7 @@ export const cardVariants: Variants = {
         y: -4,
         transition: {
             duration: 0.2,
-            ease: "easeOut",
+            ease: [0.25, 0.46, 0.45, 0.94],
         },
     },
     tap: {
@@ -85,14 +85,14 @@ export const buttonVariants = {
         scale: 1.02,
         transition: {
             duration: 0.2,
-            ease: "easeOut",
+            ease: [0.25, 0.46, 0.45, 0.94],
         },
     },
     tap: {
         scale: 0.95,
         transition: {
             duration: 0.1,
-            ease: "easeInOut",
+            ease: [0.25, 0.46, 0.45, 0.94],
         },
     },
 };
@@ -108,7 +108,7 @@ export const inputVariants: Variants = {
         scale: 1.01,
         transition: {
             duration: 0.2,
-            ease: "easeOut",
+            ease: [0.25, 0.46, 0.45, 0.94],
         },
     },
 };
@@ -124,7 +124,7 @@ export const shakeVariants: Variants = {
         x: [-10, 10, -10, 10, -5, 5, 0],
         transition: {
             duration: 0.5,
-            ease: "easeInOut",
+            ease: [0.42, 0, 0.58, 1],
         },
     },
 };
@@ -140,14 +140,14 @@ export const backdropVariants: Variants = {
         opacity: 1,
         transition: {
             duration: 0.3,
-            ease: "easeOut",
+            ease: [0.25, 0.46, 0.45, 0.94],
         },
     },
     exit: {
         opacity: 0,
         transition: {
             duration: 0.2,
-            ease: "easeIn",
+            ease: [0.42, 0, 1, 1],
         },
     },
 };
@@ -177,7 +177,7 @@ export const modalVariants: Variants = {
         y: 20,
         transition: {
             duration: 0.2,
-            ease: "easeIn",
+            ease: [0.42, 0, 1, 1],
         },
     },
 };
@@ -193,14 +193,14 @@ export const fadeIn: Variants = {
         opacity: 1,
         transition: {
             duration: 0.3,
-            ease: "easeOut",
+            ease: [0.25, 0.46, 0.45, 0.94],
         },
     },
     exit: {
         opacity: 0,
         transition: {
             duration: 0.2,
-            ease: "easeIn",
+            ease: [0.42, 0, 1, 1],
         },
     },
 };
@@ -213,14 +213,14 @@ export const scaleVariants = {
         scale: 1.1,
         transition: {
             duration: 0.2,
-            ease: "easeOut",
+            ease: [0.25, 0.46, 0.45, 0.94],
         },
     },
     tap: {
         scale: 0.9,
         transition: {
             duration: 0.1,
-            ease: "easeInOut",
+            ease: [0.42, 0, 0.58, 1],
         },
     },
 };

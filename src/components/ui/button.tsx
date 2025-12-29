@@ -64,9 +64,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <MotionComp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
-        whileHover={animationVariants.hover}
-        whileTap={animationVariants.tap}
-        {...props}
+        whileHover={animationVariants.hover as any}
+        whileTap={animationVariants.tap as any}
+        {...(props as any)}
       />
     )
   }

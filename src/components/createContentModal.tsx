@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { content } from "../services/api";
 import { Loader2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { backdropVariants, modalVariants, staggerItem } from "@/lib/animation-variants";
 
 const ContentType = {
     Youtube: "youtube",
@@ -61,49 +63,79 @@ export function CreateContentModal({ open, onClose }: CreateContentModalProps) {
         }
     }
 
-    if (!open) return null;
-
     return (
-        <div className="fixed inset-0 z-50 flex justify-center items-center">
-            {/* Opaque background */}
-            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose}></div>
+        <AnimatePresence mode="wait">
+            {open && (
+                <div className="fixed inset-0 z-50 flex justify-center items-center">
+                    {/* Animated backdrop */}
+                    <motion.div
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        variants={backdropVariants}
+                        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+                        onClick={onClose}
+                    />
 
-            <div className="relative w-full max-w-md bg-white rounded-lg shadow-lg p-6 z-10">
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-lg font-bold">Create Content</h2>
-                    <div onClick={onClose} className="cursor-pointer hover:bg-gray-100 rounded p-1">
-                        <CrossIcon />
-                    </div>
-                </div>
+                    {/* Animated modal content */}
+                    <motion.div
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        variants={modalVariants}
+                        className="relative w-full max-w-md bg-white dark:bg-card rounded-lg shadow-lg p-6 z-10"
+                    >
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-lg font-bold text-foreground">Create Content</h2>
+                            <motion.div
+                                onClick={onClose}
+                                className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded p-1"
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                            >
+                                <CrossIcon />
+                            </motion.div>
+                        </div>
 
-                <div className="flex flex-col gap-4">
-                    <Input ref={titleRef} placeholder="Title" />
-                    <Input ref={linkRef} placeholder="Link" onChange={handleLinkChange} />
-
-                    <div className="flex flex-col gap-2">
-                        <label className="text-sm font-medium text-gray-700">Type</label>
-                        <select
-                            className="w-full rounded-md border border-gray-300 bg-white p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            value={type}
-                            onChange={(e) => setType(e.target.value as ContentType)}
+                        <motion.div
+                            initial="initial"
+                            animate="animate"
+                            variants={{ animate: { transition: { staggerChildren: 0.1 } } }}
+                            className="flex flex-col gap-4"
                         >
-                            <option value={ContentType.Youtube}>Youtube</option>
-                            <option value={ContentType.Twitter}>Twitter</option>
-                        </select>
-                    </div>
+                            <motion.div variants={staggerItem}>
+                                <Input ref={titleRef} placeholder="Title" />
+                            </motion.div>
+                            <motion.div variants={staggerItem}>
+                                <Input ref={linkRef} placeholder="Link" onChange={handleLinkChange} />
+                            </motion.div>
 
-                    <div className="flex justify-end mt-2">
-                        <Button
-                            onClick={addContent}
-                            variant="default"
-                            disabled={loading}
-                        >
-                            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            Create
-                        </Button>
-                    </div>
+                            <motion.div variants={staggerItem} className="flex flex-col gap-2">
+                                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Type</label>
+                                <select
+                                    className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 p-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    value={type}
+                                    onChange={(e) => setType(e.target.value as ContentType)}
+                                >
+                                    <option value={ContentType.Youtube}>Youtube</option>
+                                    <option value={ContentType.Twitter}>Twitter</option>
+                                </select>
+                            </motion.div>
+
+                            <motion.div variants={staggerItem} className="flex justify-end mt-2">
+                                <Button
+                                    onClick={addContent}
+                                    variant="default"
+                                    disabled={loading}
+                                >
+                                    {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                    Create
+                                </Button>
+                            </motion.div>
+                        </motion.div>
+                    </motion.div>
                 </div>
-            </div>
-        </div>
+            )}
+        </AnimatePresence>
     );
 }
