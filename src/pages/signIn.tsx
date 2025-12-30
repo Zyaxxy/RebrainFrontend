@@ -40,7 +40,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-neutral-950">
+    <div className="fixed inset-0 bg-background">
       {/* Background layer */}
       <Beams
         beamWidth={2}
