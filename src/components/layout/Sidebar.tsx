@@ -8,13 +8,14 @@ import {
     FileText,
     Home
 } from "lucide-react"
+import { ThemeToggle } from "../ThemeToggle"
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export function Sidebar({ className }: SidebarProps) {
     return (
-        <div className={cn("pb-12 w-64 border-r bg-secondary/30 h-screen hidden md:block", className)}>
-            <div className="space-y-4 py-4">
+        <div className={cn("pb-12 w-64 border-r bg-secondary/30 h-screen md:flex flex-col hidden", className)}>
+            <div className="space-y-4 py-4 flex-1">
                 <div className="px-3 py-2">
                     <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
                         Second Brain
@@ -52,6 +53,12 @@ export function Sidebar({ className }: SidebarProps) {
                             New Page
                         </Button>
                     </div>
+                </div>
+            </div>
+            <div className="px-3 py-4 border-t">
+                <div className="flex items-center justify-between px-4">
+                    <span className="text-sm text-muted-foreground">Theme</span>
+                    <ThemeToggle />
                 </div>
             </div>
         </div>

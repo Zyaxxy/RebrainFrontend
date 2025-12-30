@@ -8,6 +8,7 @@ import { Loader2 } from "lucide-react";
 import Beams from "@/components/ui/Beams";
 import { motion, AnimatePresence } from "framer-motion";
 import { staggerContainer, staggerItem, shakeVariants } from "@/lib/animation-variants";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const SignIn = () => {
   const [username, setUsername] = useState("");
@@ -61,6 +62,10 @@ const SignIn = () => {
         transition={{ duration: 0.3 }}
         className="fixed inset-0 flex items-center justify-center z-10"
       >
+        {/* Theme toggle in top-right */}
+        <div className="fixed top-4 right-4 z-20">
+          <ThemeToggle />
+        </div>
         <motion.div
           initial="initial"
           animate="animate"
