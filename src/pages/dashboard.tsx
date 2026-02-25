@@ -29,26 +29,54 @@ export function Dashboard() {
         animate="animate"
         variants={staggerContainer}
       >
-        <motion.div variants={staggerItem} className="mb-8 flex justify-between items-center">
+        <motion.div variants={staggerItem} className="mb-10 flex justify-between items-end">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight mb-2">Dashboard</h1>
-            <p className="text-muted-foreground">
-              Welcome back to your Second Brain. Here's an overview of your workspace.
+            <div className="w-8 h-px bg-[#d4a053]/50 mb-4" />
+            <h1 className="font-display text-4xl font-bold tracking-tight mb-2 text-foreground">
+              Dashboard
+            </h1>
+            <p className="text-muted-foreground text-sm">
+              Welcome back to your Second Brain. Here's your curated workspace.
             </p>
           </div>
-          <div className='flex gap-2'>
-            <Button onClick={() => { setModalOpen(true) }} variant="default">
+          <div className='flex gap-3'>
+            <Button
+              onClick={() => { setModalOpen(true) }}
+              variant="default"
+              className="text-sm"
+            >
               <PlusIcon className="mr-2 h-4 w-4" />
               Add Content
             </Button>
-            <Button variant="secondary">
+            <Button variant="secondary" className="text-sm">
               <ShareIcon className="mr-2 h-4 w-4" />
               Share
             </Button>
           </div>
         </motion.div>
+
         <motion.div variants={staggerItem}>
-          <DraggableGrid items={contents} />
+          {contents.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-24 text-center">
+              <div className="w-16 h-px bg-border mb-6" />
+              <p className="font-display text-xl text-muted-foreground mb-2">
+                Nothing here yet
+              </p>
+              <p className="text-sm text-muted-foreground/60 mb-6 max-w-xs">
+                Start building your second brain by saving your favorite content from across the web.
+              </p>
+              <Button
+                onClick={() => setModalOpen(true)}
+                variant="default"
+                className="text-sm"
+              >
+                <PlusIcon className="mr-2 h-4 w-4" />
+                Add your first item
+              </Button>
+            </div>
+          ) : (
+            <DraggableGrid items={contents} />
+          )}
         </motion.div>
       </motion.div>
     </DashboardLayout>

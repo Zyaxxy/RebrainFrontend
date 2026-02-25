@@ -67,29 +67,36 @@ export function CreateContentModal({ open, onClose }: CreateContentModalProps) {
         <AnimatePresence mode="wait">
             {open && (
                 <div className="fixed inset-0 z-50 flex justify-center items-center">
-                    {/* Animated backdrop */}
+                    {/* Backdrop */}
                     <motion.div
                         initial="initial"
                         animate="animate"
                         exit="exit"
                         variants={backdropVariants}
-                        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+                        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
                         onClick={onClose}
                     />
 
-                    {/* Animated modal content */}
+                    {/* Modal */}
                     <motion.div
                         initial="initial"
                         animate="animate"
                         exit="exit"
                         variants={modalVariants}
-                        className="relative w-full max-w-md bg-white dark:bg-card rounded-lg shadow-lg p-6 z-10"
+                        className="relative w-full max-w-md bg-card rounded-lg shadow-2xl p-7 z-10 border border-border/50"
                     >
-                        <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-lg font-bold text-foreground">Create Content</h2>
+                        <div className="flex justify-between items-center mb-6">
+                            <div>
+                                <h2 className="font-display text-xl font-semibold text-foreground">
+                                    Add Content
+                                </h2>
+                                <p className="text-xs text-muted-foreground mt-1">
+                                    Save a link to your second brain
+                                </p>
+                            </div>
                             <motion.div
                                 onClick={onClose}
-                                className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded p-1"
+                                className="cursor-pointer hover:bg-accent rounded-md p-1.5 transition-colors"
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
                             >
@@ -101,19 +108,27 @@ export function CreateContentModal({ open, onClose }: CreateContentModalProps) {
                             initial="initial"
                             animate="animate"
                             variants={{ animate: { transition: { staggerChildren: 0.1 } } }}
-                            className="flex flex-col gap-4"
+                            className="flex flex-col gap-5"
                         >
                             <motion.div variants={staggerItem}>
-                                <Input ref={titleRef} placeholder="Title" />
+                                <label className="block text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+                                    Title
+                                </label>
+                                <Input ref={titleRef} placeholder="Give it a name" />
                             </motion.div>
                             <motion.div variants={staggerItem}>
-                                <Input ref={linkRef} placeholder="Link" onChange={handleLinkChange} />
+                                <label className="block text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+                                    Link
+                                </label>
+                                <Input ref={linkRef} placeholder="Paste a URL" onChange={handleLinkChange} />
                             </motion.div>
 
                             <motion.div variants={staggerItem} className="flex flex-col gap-2">
-                                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Type</label>
+                                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                                    Type
+                                </label>
                                 <select
-                                    className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 p-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full rounded-md border border-border bg-background/50 p-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-[#d4a053]/40 focus:border-[#d4a053]/40 transition-all"
                                     value={type}
                                     onChange={(e) => setType(e.target.value as ContentType)}
                                 >
@@ -127,9 +142,10 @@ export function CreateContentModal({ open, onClose }: CreateContentModalProps) {
                                     onClick={addContent}
                                     variant="default"
                                     disabled={loading}
+                                    className="text-sm"
                                 >
                                     {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                                    Create
+                                    Save to Brain
                                 </Button>
                             </motion.div>
                         </motion.div>

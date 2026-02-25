@@ -8,9 +8,9 @@ interface WidgetCardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function WidgetCard({ title, children, className, ...props }: WidgetCardProps) {
     return (
-        <Card className={cn("h-full", className)} {...props}>
+        <Card className={cn("h-full gold-border-top", className)} {...props}>
             <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
+                <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     {title}
                 </CardTitle>
             </CardHeader>

@@ -5,9 +5,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/auth";
 import { auth } from "@/services/api";
 import { Loader2 } from "lucide-react";
-import Beams from "@/components/ui/Beams";
 import { motion, AnimatePresence } from "framer-motion";
-import { staggerContainer, staggerItem, shakeVariants } from "@/lib/animation-variants";
+import {
+  staggerContainer,
+  staggerItem,
+  shakeVariants,
+  slideInLeft,
+  slideInRight,
+} from "@/lib/animation-variants";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 const SignIn = () => {
@@ -24,12 +29,12 @@ const SignIn = () => {
     setLoading(true);
 
     try {
-      const data = await auth.signIn(username, password) as any;
+      const data = (await auth.signIn(username, password)) as any;
 
       if (data.token) {
         localStorage.setItem("token", data.token);
-        login(); // Update auth store
-        navigate("/"); // Redirect to dashboard
+        login();
+        navigate("/");
       } else {
         setError("Sign in failed. Check your credentials.");
       }
@@ -41,68 +46,141 @@ const SignIn = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-background">
-      {/* Background layer */}
-      <Beams
-        beamWidth={2}
-        beamHeight={15}
-        beamNumber={12}
-        lightColor="#ffffff"
-        speed={2}
-        noiseIntensity={1.75}
-        scale={0.2}
-        rotation={0}
-      />
+    <div className="fixed inset-0 flex bg-background">
+      {/* Theme toggle */}
+      <div className="fixed top-5 right-5 z-20">
+        <ThemeToggle />
+      </div>
 
-      {/* Content layer */}
+      {/* ──────── Left: Branding Panel ──────── */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
-        className="fixed inset-0 flex items-center justify-center z-10"
+        initial="initial"
+        animate="animate"
+        variants={slideInLeft}
+        className="hidden lg:flex w-1/2 relative overflow-hidden items-center justify-center"
       >
-        {/* Theme toggle in top-right */}
-        <div className="fixed top-4 right-4 z-20">
-          <ThemeToggle />
+        {/* Gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1a1408] via-[#0a0a0a] to-[#0d0d0d] dark:from-[#1a1408] dark:via-[#0a0a0a] dark:to-[#0d0d0d]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#f5f0e6] via-[#ede5d5] to-[#e8dcc8] dark:hidden" />
+
+        {/* Noise texture overlay */}
+        <div className="absolute inset-0 opacity-[0.04]" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`
+        }} />
+
+        {/* Gold accent line */}
+        <div className="absolute left-12 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#d4a053]/30 to-transparent" />
+
+        {/* Branding content */}
+        <div className="relative z-10 px-16 max-w-lg">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div className="mb-8">
+              <div className="w-10 h-px bg-[#d4a053] mb-8" />
+              <h1 className="font-display text-6xl font-bold tracking-tight leading-[1.1] text-foreground">
+                RE
+                <span className="text-[#d4a053]">BRAIN</span>
+              </h1>
+            </div>
+            <p className="text-lg text-muted-foreground leading-relaxed font-body">
+              Your personal vault for the web's best ideas.
+              <br />
+              <span className="text-[#d4a053]/70">Save. Organize. Revisit.</span>
+            </p>
+          </motion.div>
+
+          {/* Decorative dots */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8, duration: 1 }}
+            className="mt-16 flex gap-2"
+          >
+            {[...Array(4)].map((_, i) => (
+              <div
+                key={i}
+                className="w-1.5 h-1.5 rounded-full bg-[#d4a053]"
+                style={{ opacity: 1 - i * 0.2 }}
+              />
+            ))}
+          </motion.div>
         </div>
+      </motion.div>
+
+      {/* ──────── Right: Sign In Form ──────── */}
+      <motion.div
+        initial="initial"
+        animate="animate"
+        variants={slideInRight}
+        className="flex-1 flex items-center justify-center px-6"
+      >
         <motion.div
           initial="initial"
           animate="animate"
           variants={staggerContainer}
-          className="w-80 bg-card rounded-lg shadow-md p-8 flex flex-col items-center justify-center border border-border"
+          className="w-full max-w-sm"
         >
-          <motion.h2
-            variants={staggerItem}
-            className="text-2xl font-bold mb-6 text-card-foreground"
+          {/* Mobile branding */}
+          <motion.div variants={staggerItem} className="lg:hidden mb-10">
+            <h1 className="font-display text-4xl font-bold tracking-tight text-foreground">
+              RE<span className="text-[#d4a053]">BRAIN</span>
+            </h1>
+          </motion.div>
+
+          <motion.div variants={staggerItem} className="mb-8">
+            <h2 className="font-display text-3xl font-semibold text-foreground mb-2">
+              Welcome back
+            </h2>
+            <p className="text-muted-foreground text-sm">
+              Sign in to access your second brain
+            </p>
+          </motion.div>
+
+          <form
+            className="flex flex-col gap-5 w-full"
+            onSubmit={handleSignIn}
           >
-            Sign In
-          </motion.h2>
-          <form className="flex flex-col gap-4 w-full items-center" onSubmit={handleSignIn}>
-            <motion.div variants={staggerItem} className="w-full">
+            <motion.div variants={staggerItem}>
+              <label className="block text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+                Username
+              </label>
               <Input
-                placeholder="Username"
+                placeholder="Enter your username"
                 value={username}
-                onChange={e => setUsername(e.target.value)}
+                onChange={(e) => setUsername(e.target.value)}
                 className="w-full"
               />
             </motion.div>
-            <motion.div variants={staggerItem} className="w-full">
+            <motion.div variants={staggerItem}>
+              <label className="block text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+                Password
+              </label>
               <Input
-                placeholder="Password"
+                placeholder="Enter your password"
                 type="password"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full"
               />
             </motion.div>
-            <motion.div variants={staggerItem} className="w-full">
-              <Button variant="default" size="default" disabled={loading} className="w-full">
-                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            <motion.div variants={staggerItem} className="pt-2">
+              <Button
+                variant="default"
+                size="default"
+                disabled={loading}
+                className="w-full h-11 text-sm font-medium tracking-wide"
+              >
+                {loading && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
                 Sign In
               </Button>
             </motion.div>
           </form>
+
           <AnimatePresence mode="wait">
             {error && (
               <motion.div
@@ -110,17 +188,24 @@ const SignIn = () => {
                 animate="shake"
                 exit={{ opacity: 0 }}
                 variants={shakeVariants}
-                className="text-destructive mt-2 text-sm"
+                className="text-destructive mt-4 text-sm text-center"
               >
                 {error}
               </motion.div>
             )}
           </AnimatePresence>
+
           <motion.div
             variants={staggerItem}
-            className="mt-4 text-sm text-muted-foreground"
+            className="mt-8 text-sm text-muted-foreground text-center"
           >
-            Don't have an account? <Link to="/signup" className="text-primary hover:underline">Sign Up</Link>
+            Don't have an account?{" "}
+            <Link
+              to="/signup"
+              className="text-[#d4a053] hover:text-[#e8b86d] transition-colors"
+            >
+              Sign Up
+            </Link>
           </motion.div>
         </motion.div>
       </motion.div>
