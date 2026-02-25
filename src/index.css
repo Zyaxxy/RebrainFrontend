@@ -4,61 +4,78 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ============================================
+   OBSIDIAN NOIR — Light Theme (Warm Parchment)
+   ============================================ */
 :root {
-  --background: 0 0% 100%;
-  --foreground: 0 0% 3.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 0 0% 3.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 3.9%;
-  --primary: 0 0% 9%;
-  --primary-foreground: 0 0% 98%;
-  --secondary: 0 0% 96.1%;
-  --secondary-foreground: 0 0% 9%;
-  --muted: 0 0% 96.1%;
-  --muted-foreground: 0 0% 45.1%;
-  --accent: 0 0% 96.1%;
-  --accent-foreground: 0 0% 9%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 0 0% 89.8%;
-  --input: 0 0% 89.8%;
-  --ring: 0 0% 3.9%;
-  --chart-1: 12 76% 61%;
-  --chart-2: 173 58% 39%;
-  --chart-3: 197 37% 24%;
-  --chart-4: 43 74% 66%;
-  --chart-5: 27 87% 67%;
-  --radius: 0.5rem;
-}
-
-.dark {
-  --background: 0 0% 0%; /* Pure black to match 3D beams background */
-  --foreground: 0 0% 100%; /* Pure white to match 3D beams light */
-  --card: 0 0% 8%; /* Very dark gray for subtle elevation */
-  --card-foreground: 0 0% 100%;
-  --popover: 0 0% 5%;
-  --popover-foreground: 0 0% 100%;
-  --primary: 0 0% 100%;
-  --primary-foreground: 0 0% 0%;
-  --secondary: 0 0% 12%; /* Darker sidebar to match theme */
-  --secondary-foreground: 0 0% 95%;
-  --muted: 0 0% 15%;
-  --muted-foreground: 0 0% 70%;
-  --accent: 0 0% 15%;
-  --accent-foreground: 0 0% 100%;
-  --destructive: 0 62.8% 30.6%;
+  --background: 40 33% 97%;
+  --foreground: 30 10% 12%;
+  --card: 38 30% 94%;
+  --card-foreground: 30 10% 12%;
+  --popover: 38 30% 94%;
+  --popover-foreground: 30 10% 12%;
+  --primary: 36 55% 58%;
+  --primary-foreground: 30 10% 8%;
+  --secondary: 38 18% 90%;
+  --secondary-foreground: 30 10% 15%;
+  --muted: 36 12% 88%;
+  --muted-foreground: 30 5% 45%;
+  --accent: 36 55% 58%;
+  --accent-foreground: 30 10% 8%;
+  --destructive: 0 60% 50%;
   --destructive-foreground: 0 0% 100%;
-  --border: 0 0% 20%;
-  --input: 0 0% 20%;
-  --ring: 0 0% 100%;
-  --chart-1: 220 70% 50%;
-  --chart-2: 160 60% 45%;
-  --chart-3: 30 80% 55%;
-  --chart-4: 280 65% 60%;
-  --chart-5: 340 75% 55%;
+  --border: 36 10% 85%;
+  --input: 36 10% 85%;
+  --ring: 36 55% 58%;
+  --chart-1: 36 70% 55%;
+  --chart-2: 160 45% 40%;
+  --chart-3: 200 35% 30%;
+  --chart-4: 20 65% 55%;
+  --chart-5: 50 60% 50%;
+  --radius: 0.5rem;
+
+  --gold: #d4a053;
+  --gold-hover: #e8b86d;
+  --gold-muted: rgba(212, 160, 83, 0.15);
 }
 
+/* ============================================
+   OBSIDIAN NOIR — Dark Theme (Deep Charcoal)
+   ============================================ */
+.dark {
+  --background: 0 0% 4%;
+  --foreground: 40 20% 93%;
+  --card: 0 0% 8%;
+  --card-foreground: 40 20% 93%;
+  --popover: 0 0% 6%;
+  --popover-foreground: 40 20% 93%;
+  --primary: 36 55% 58%;
+  --primary-foreground: 0 0% 4%;
+  --secondary: 0 0% 11%;
+  --secondary-foreground: 40 15% 85%;
+  --muted: 0 0% 14%;
+  --muted-foreground: 0 0% 45%;
+  --accent: 36 55% 58%;
+  --accent-foreground: 0 0% 4%;
+  --destructive: 0 55% 40%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 14%;
+  --input: 0 0% 14%;
+  --ring: 36 55% 58%;
+  --chart-1: 36 70% 55%;
+  --chart-2: 160 50% 45%;
+  --chart-3: 20 70% 50%;
+  --chart-4: 280 55% 55%;
+  --chart-5: 340 65% 50%;
+
+  --gold: #d4a053;
+  --gold-hover: #e8b86d;
+  --gold-muted: rgba(212, 160, 83, 0.1);
+}
+
+/* ============================================
+   Tailwind v4 Theme Mapping
+   ============================================ */
 @theme {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
@@ -79,8 +96,86 @@
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
-  
+
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
+
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+}
+
+/* ============================================
+   Global Styles
+   ============================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--gold-muted);
+  color: var(--gold);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.noise-overlay {
+  position: relative;
+}
+
+.noise-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+.gold-glow {
+  box-shadow:
+    0 0 20px rgba(212, 160, 83, 0.15),
+    0 0 60px rgba(212, 160, 83, 0.05);
+}
+
+.gold-border-top {
+  border-top: 1px solid rgba(212, 160, 83, 0.3);
 }

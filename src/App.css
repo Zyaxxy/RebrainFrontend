@@ -1,8 +1,12 @@
 @import "tailwindcss";
 
-
 @theme {
-    --color-purple-600: #7164c0;
-    --color-purple-200: #D9DDEE;
-    --color-purple-500: #9492db;
+  --color-gold: #d4a053;
+  --color-gold-hover: #e8b86d;
+  --color-gold-muted: rgba(212, 160, 83, 0.15);
+  --color-charcoal-900: #0a0a0a;
+  --color-charcoal-800: #141414;
+  --color-charcoal-700: #1c1c1c;
+  --color-parchment: #faf8f4;
+  --color-parchment-dark: #f2efe8;
 }
